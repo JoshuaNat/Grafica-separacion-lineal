@@ -7,6 +7,8 @@ import numpy as np
 def on_click(event):
     if event.inaxes is not None:
         print (event.xdata, event.ydata)
+        plt.plot(event.xdata, event.ydata, 'or')
+        canvas.draw()
     else:
         print ('Clicked ouside axes bounds but inside plot window')
  
@@ -27,7 +29,8 @@ canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
  
 # Plot data on Matplotlib Figure
 t = np.arange(0, 2*np.pi, .01)
-ax.plot(t, np.sin(t))
+plt.xlim([-2,2])
+plt.ylim([-2,2])
 fig.canvas.callbacks.connect('button_press_event', on_click)
 canvas.draw()
  
