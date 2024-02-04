@@ -41,7 +41,18 @@ def prod_p(p1, p2, b):
             plt.plot(X[i][1], X[i][2], 'ob')
     
     canvas.draw()
- 
+
+def limpiar():
+    Xs.clear()
+    plt.clf()
+    plt.title("Practica 1")
+    plt.grid("on")
+    plt.xlim([-2,2])
+    plt.ylim([-2,2])
+    plt.xlabel(r"x1")
+    plt.ylabel(r"x2")
+    plt.draw()
+
 # Initialize Tkinter and Matplotlib Figure
 root = tk.Tk()
 fig, ax = plt.subplots()
@@ -70,6 +81,8 @@ bias.insert(tk.END, ms3)
 #Creación del boton
 graficar = tk.Button(root, height=2, width=15, text="Graficar", command=lambda:graficar_linea())
 graficar.pack()
+resetear = tk.Button(root, height=2, width=15, text="Reiniciar", command=lambda:limpiar())
+resetear.pack()
  
 # Create Canvas
 canvas = FigureCanvasTkAgg(fig, master=root)  
@@ -77,8 +90,12 @@ canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
  
 # Plot data on Matplotlib Figure
 t = np.arange(0, 2*np.pi, .01)
+plt.title("Practica 1")
+plt.grid("on")
 plt.xlim([-2,2])
 plt.ylim([-2,2])
+plt.xlabel(r"x1")
+plt.ylabel(r"x2")
 fig.canvas.callbacks.connect('button_press_event', on_click)
 canvas.draw()
  
