@@ -7,13 +7,21 @@ import numpy as np
 def on_click(event):
     if event.inaxes is not None:
         print (event.xdata, event.ydata)
-        plt.plot(event.xdata, event.ydata, 'or')
+        plt.plot(event.xdata, event.ydata, 'ok')
         canvas.draw()
     else:
         print ('Clicked ouside axes bounds but inside plot window')
 
 def graficar_linea():
-    pass
+    w1 = float(peso_1.get("1.0", "end-1c"))
+    w2 = float(peso_2.get("1.0", "end-1c"))
+    b = float(bias.get("1.0", "end-1c"))
+
+    m = -w1/w2
+    c = -b/w2
+
+    plt.axline((0,c), slope=m, linewidth = 4)
+    canvas.draw()
  
 # Initialize Tkinter and Matplotlib Figure
 root = tk.Tk()
@@ -41,7 +49,7 @@ bias.pack()
 bias.insert(tk.END, ms3)
 
 #Creación del boton
-graficar = tk.Button(root, height=2, width=15, text="Graficar")
+graficar = tk.Button(root, height=2, width=15, text="Graficar", command=lambda:graficar_linea())
 graficar.pack()
  
 # Create Canvas
