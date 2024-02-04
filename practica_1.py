@@ -4,9 +4,13 @@ from matplotlib.backends.backend_tkagg import (
 import tkinter as tk
 import numpy as np
 
+#Variable global para almacenar las coordenadas
+Xs = []
+
 def on_click(event):
     if event.inaxes is not None:
-        print (event.xdata, event.ydata)
+        #Agrega las coordenadas a la lista
+        Xs.append([1, event.xdata, event.ydata])
         plt.plot(event.xdata, event.ydata, 'ok')
         canvas.draw()
     else:
@@ -21,6 +25,21 @@ def graficar_linea():
     c = -b/w2
 
     plt.axline((0,c), slope=m, linewidth = 4)
+    canvas.draw()
+    prod_p(w1, w2, b)
+
+
+def prod_p(p1, p2, b):
+    W = np.array([b, p1, p2])
+    X = np.array(Xs)
+    y = np.dot(W, X.T) >= 0
+    
+    for i in range(len(y)):
+        if (y[i] == 0):
+            plt.plot(X[i][1], X[i][2], 'or')
+        else:
+            plt.plot(X[i][1], X[i][2], 'ob')
+    
     canvas.draw()
  
 # Initialize Tkinter and Matplotlib Figure
