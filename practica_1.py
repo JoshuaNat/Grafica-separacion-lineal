@@ -18,7 +18,7 @@ def on_click(event):
 
 def graficar_linea():
     crear_grafica()
-    
+
     w1 = float(peso_1.get("1.0", "end-1c"))
     w2 = float(peso_2.get("1.0", "end-1c"))
     b = float(bias.get("1.0", "end-1c"))
@@ -56,7 +56,16 @@ def crear_grafica():
     plt.draw()
 
 def limpiar():
+    ms1 = "W1"
+    ms2 = "W2"
+    ms3 = "Bias"
     Xs.clear()
+    peso_1.delete("1.0", "end-1c")
+    peso_1.insert(tk.END, ms1)
+    peso_2.delete("1.0", "end-1c")
+    peso_2.insert(tk.END, ms2)
+    bias.delete("1.0", "end-1c")
+    bias.insert(tk.END, ms3)
     crear_grafica()
 
 # Initialize Tkinter and Matplotlib Figure
