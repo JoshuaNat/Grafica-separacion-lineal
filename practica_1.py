@@ -17,6 +17,8 @@ def on_click(event):
         print ('Clicked ouside axes bounds but inside plot window')
 
 def graficar_linea():
+    crear_grafica()
+    
     w1 = float(peso_1.get("1.0", "end-1c"))
     w2 = float(peso_2.get("1.0", "end-1c"))
     b = float(bias.get("1.0", "end-1c"))
@@ -30,20 +32,20 @@ def graficar_linea():
 
 
 def prod_p(p1, p2, b):
-    W = np.array([b, p1, p2])
-    X = np.array(Xs)
-    y = np.dot(W, X.T) >= 0
-    
-    for i in range(len(y)):
-        if (y[i] == 0):
-            plt.plot(X[i][1], X[i][2], 'or')
-        else:
-            plt.plot(X[i][1], X[i][2], 'ob')
+    if Xs:
+        W = np.array([b, p1, p2])
+        X = np.array(Xs)
+        y = np.dot(W, X.T) >= 0
+        
+        for i in range(len(y)):
+            if (y[i] == 0):
+                plt.plot(X[i][1], X[i][2], 'or')
+            else:
+                plt.plot(X[i][1], X[i][2], 'ob')
     
     canvas.draw()
 
-def limpiar():
-    Xs.clear()
+def crear_grafica():
     plt.clf()
     plt.title("Practica 1")
     plt.grid("on")
@@ -53,15 +55,16 @@ def limpiar():
     plt.ylabel(r"x2")
     plt.draw()
 
+def limpiar():
+    Xs.clear()
+    crear_grafica()
+
 # Initialize Tkinter and Matplotlib Figure
 root = tk.Tk()
 fig, ax = plt.subplots()
  
 # Tkinter Application
 frame = tk.Frame(root)
-#label = tk.Label(text = "Matplotlib + Tkinter!")
-#label.config(font=("Courier", 32))
-#label.pack()
 frame.pack()
 
 #Creaciones de texto
@@ -90,12 +93,7 @@ canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
  
 # Plot data on Matplotlib Figure
 t = np.arange(0, 2*np.pi, .01)
-plt.title("Practica 1")
-plt.grid("on")
-plt.xlim([-2,2])
-plt.ylim([-2,2])
-plt.xlabel(r"x1")
-plt.ylabel(r"x2")
+crear_grafica()
 fig.canvas.callbacks.connect('button_press_event', on_click)
 canvas.draw()
  
