@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import (
      FigureCanvasTkAgg)
 import tkinter as tk
+from tkinter import messagebox
 import numpy as np
 
 #Variable global para almacenar las coordenadas
@@ -14,21 +15,30 @@ def on_click(event):
         plt.plot(event.xdata, event.ydata, 'ok')
         canvas.draw()
     else:
-        print ('Clicked ouside axes bounds but inside plot window')
+        messagebox.showwarning("Fuera del plano", "Por favor haga click dentro del plano cartesiano")
 
 def graficar_linea():
-    crear_grafica()
+    texto1 = peso_1.get("1.0", "end-1c")
+    texto2 = peso_2.get("1.0", "end-1c")
+    texto3 = bias.get("1.0", "end-1c")
 
-    w1 = float(peso_1.get("1.0", "end-1c"))
-    w2 = float(peso_2.get("1.0", "end-1c"))
-    b = float(bias.get("1.0", "end-1c"))
+    if (is_float(texto1) and is_float(texto2) and is_float(texto3)):
+        crear_grafica()
 
-    m = -w1/w2
-    c = -b/w2
+        w1 = float(texto1)
+        w2 = float(texto2)
+        b = float(texto3)
 
-    plt.axline((0,c), slope=m, linewidth = 4)
-    canvas.draw()
-    prod_p(w1, w2, b)
+        m = -w1/w2
+        c = -b/w2
+
+        plt.axline((0,c), slope=m, linewidth = 4)
+        canvas.draw()
+        prod_p(w1, w2, b)
+    
+    else:
+        messagebox.showerror("Valor invalido", "Todos los valores deben ser numeros flotantes")
+        
 
 
 def prod_p(p1, p2, b):
@@ -67,6 +77,14 @@ def limpiar():
     bias.delete("1.0", "end-1c")
     bias.insert(tk.END, ms3)
     crear_grafica()
+
+def is_float(numero):
+    try:
+        float(numero)
+        return(True)
+    except:
+        return False
+
 
 # Initialize Tkinter and Matplotlib Figure
 root = tk.Tk()
